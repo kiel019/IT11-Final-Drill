@@ -1,6 +1,36 @@
 const apiKey = '1bfdbff05c2698dc917dd28c08d41096';
 const baseUrl = 'https://api.themoviedb.org/3/search/movie';
 const resultsContainer = document.getElementById('results');
+const nextButton = document.getElementById('next');
+const prevButton = document.getElementById('prev');
+let page = 1;
+
+function nextPage() {
+    page++;
+    upcomingMovies();
+}
+
+function prevPage() {
+    if (page > 1) {
+        page--;
+        upcomingMovies();
+    }
+    else {
+        page = 1;
+        upcomingMovies();
+    }
+}
+
+const upcomingMovies = async() =>{
+    window.scrollTo(0,0);
+    const response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US&page=${page}`)
+    const data = await response.json()
+    resultsContainer.innerHTML = data.results.map((data)=> (
+    `<div class='upcomingMovies' ondblclick="showMovieDetails(${data.id})"><strong>${data.title}</strong> (${data.release_date})<br><img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster"></div>`))
+    
+}
+
+upcomingMovies()
 
 function searchMovies() {
     const query = document.getElementById('search').value;
@@ -21,6 +51,8 @@ function searchMovies() {
 }
 
 function displayResults(results) {
+    nextButton.style.display = 'none';
+    prevButton.style.display = 'none';
     resultsContainer.innerHTML = '';
 
     if (results.length === 0) {
@@ -29,6 +61,7 @@ function displayResults(results) {
     }
 
     results.forEach(movie => {
+        window.scrollTo(0,0);
         const listItem = document.createElement('li');
         listItem.classList.add('movie');
         // Check if the movie has a poster path
@@ -52,6 +85,9 @@ function showMovieDetails(movieId) {
 }
 
 const displayMovieDetails = async(movie) => {
+    window.scrollTo(0,0);
+    nextButton.style.display = 'none';
+    prevButton.style.display = 'none';
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}/similar?api_key=${apiKey}&language=en-US&page=1`)
     const data = await response.json()
     console.log(movie)
@@ -59,23 +95,26 @@ const displayMovieDetails = async(movie) => {
     const posterUrl = posterPath
             ? `https://image.tmdb.org/t/p/w500${posterPath}`
             : 'placeholder_image_url.jpg';  // Provide a placeholder image URL if no poster is available
-    resultsContainer.innerHTML = `<div>
-                                    <img class=posterDetails src="${posterUrl}" alt="${movie.title} Poster"><br>
-                                    <strong>${movie.title}</strong><br>
-                                    <p id='release_date'>Release Date: (${movie.release_date})</p>
-                                    <p>Original Title: ${movie.original_title}</p>
-                                    <p>Original Language: ${movie.original_language}</p>
-                                    <p>Genre: ${movie.genres.map((data) => data.name).join(' ')}</p>
-                                    <img class=backdrop src="http://image.tmdb.org/t/p/w500/${movie.backdrop_path}"> 
-                                    <p id="summary">Summary: ${movie.overview}<p> 
-
-                                    <div> 
-                                        ${data.results.map((data) => (
-                                            `<div ondblclick="showMovieDetails(${data.id})"><strong>${data.title}</strong> (${data.release_date})<br><img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster"></div>`
-
-                                        ))}
+    const backdropUrl = movie.backdrop_path
+            ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
+            : 'placeholder_backdrop_url.jpg'; // Provide a placeholder image URL if no backdrop is available
+    resultsContainer.innerHTML = `<div class="banner" style="background-image: url('${backdropUrl}')"></div> 
+                                    <div class=movieDetails>
+                                    <img class=posterDetails src="${posterUrl}" alt="${movie.title} Poster">
+                                    <div>
+                                    <strong class='mTitle'>${movie.title}</strong><br><br>
+                                    <p id='release_date'><strong>Release Date:</strong> (${movie.release_date})</p><br>
+                                    <p><strong>Original Title:</strong> ${movie.original_title}</p><br>
+                                    <p><strong>Original Language:</strong> ${movie.original_language}</p><br>
+                                    <p><strong>Genre:</strong> ${movie.genres.map((data) => data.name).join(' ')}</p><br>
+                                    <p id="summary"><strong>Summary:</strong><br> ${movie.overview}<p> </div>
                                     </div>
-                                    </div>`
+                                    <strong class='tsm'>Similar Movies</strong>
+                                    <div class=similarMovies> 
+                                        ${data.results.slice(0, 5).map((data) => (
+                                            `<div class=sMovies ondblclick="showMovieDetails(${data.id})"><img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster"><br><strong>${data.title}</strong></div>`
 
+                                        )).join('')}
+                                    </div>`                                    
 }
 

@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>GM Movies</title>
 </head>
 <body>
     
-    <h1>GM's Movie Catalog</h1>
-    <label for="search">Search for a movie:</label>
-    <input type="text" id="search" placeholder="Enter a movie title">
-    <button onclick="searchMovies()">Search</button>
-
+    <h1><a href="index.html">GM's Movie Catalog</a></h1>
+    <div class="searchM">
+        <label for="searchs">Search for a movie:</label>
+        <input type="text" id="search" placeholder="Enter a movie title">
+        <button onclick="searchMovies()">Search</button>
+        <button id="prev" onclick="prevPage()">Previous</button>
+        <button id="next" onclick="nextPage()">Next</button>    
+    </div>
+    
     <ul id="results"></ul>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="scripts.js"></script>
