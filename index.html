@@ -6,7 +6,13 @@
     <title>M Movies</title>
 </head>
 <body>
+    <h1>Movie Search</h1>
+    <label for="search">Search for a movie:</label>
+    <input type="text" id="search" placeholder="Enter a movie title">
+    <button onclick="searchMovies()">Search</button>
+
+    <ul id="results"></ul>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="moduel" src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

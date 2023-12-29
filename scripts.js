@@ -1,4 +1,4 @@
-const apiKey = 'YOUR_API_KEY';
+const apiKey = '1bfdbff05c2698dc917dd28c08d41096';
 const baseUrl = 'https://api.themoviedb.org/3/search/movie';
 
 function searchMovies() {
@@ -31,7 +31,12 @@ function displayResults(results) {
     results.forEach(movie => {
         const listItem = document.createElement('li');
         listItem.classList.add('movie');
-        listItem.innerHTML = `<strong>${movie.title}</strong> (${movie.release_date})<br>${movie.overview}`;
+        // Check if the movie has a poster path
+        const posterPath = movie.poster_path;
+        const posterUrl = posterPath
+            ? `https://image.tmdb.org/t/p/w500${posterPath}`
+            : 'placeholder_image_url.jpg';  // Provide a placeholder image URL if no poster is available
+        listItem.innerHTML = `<strong>${movie.title}</strong> (${movie.release_date})<br><img src="${posterUrl}" alt="${movie.title} Poster"><br>${movie.overview}`;
         resultsContainer.appendChild(listItem);
     });
 }
