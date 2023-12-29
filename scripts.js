@@ -25,9 +25,15 @@ const upcomingMovies = async() =>{
     window.scrollTo(0,0);
     const response = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=en-US&page=${page}`)
     const data = await response.json()
-    resultsContainer.innerHTML = data.results.map((data)=> (
-    `<div class='upcomingMovies' ondblclick="showMovieDetails(${data.id})"><strong>${data.title}</strong> (${data.release_date})<br><img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster"></div>`))
-    
+    resultsContainer.innerHTML = `
+        <strong class='um'>Upcoming Movies</strong>
+        <div class='upcomingMovies'>
+        ${data.results.slice(0, 15).map((data)=> (
+        `<div class='uMovies' ondblclick="showMovieDetails(${data.id})">
+        <img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster">
+        <strong>${data.title}</strong> (${data.release_date})
+        </div>`)).join('')}
+        </div>`
 }
 
 upcomingMovies()
@@ -97,8 +103,8 @@ const displayMovieDetails = async(movie) => {
             : 'placeholder_image_url.jpg';  // Provide a placeholder image URL if no poster is available
     const backdropUrl = movie.backdrop_path
             ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
-            : 'placeholder_backdrop_url.jpg'; // Provide a placeholder image URL if no backdrop is available
-    resultsContainer.innerHTML = `<div class="banner" style="background-image: url('${backdropUrl}')"></div> 
+            : 'placeholder_image_url.jpg'; // Provide a placeholder image URL if no backdrop is available
+    resultsContainer.innerHTML = `<a href='${backdropUrl}'><div class="banner" style="background-image: url('${backdropUrl}')"></div></a>
                                     <div class=movieDetails>
                                     <img class=posterDetails src="${posterUrl}" alt="${movie.title} Poster">
                                     <div>
@@ -112,8 +118,9 @@ const displayMovieDetails = async(movie) => {
                                     <strong class='tsm'>Similar Movies</strong>
                                     <div class=similarMovies> 
                                         ${data.results.slice(0, 5).map((data) => (
-                                            `<div class=sMovies ondblclick="showMovieDetails(${data.id})"><img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster"><br><strong>${data.title}</strong></div>`
-
+                                            `<div class=sMovies ondblclick="showMovieDetails(${data.id})">
+                                            <img class=posterImg src="http://image.tmdb.org/t/p/w500/${data.poster_path}" alt="${data.title} Poster"><br>
+                                            <strong>${data.title}</strong></div>`
                                         )).join('')}
                                     </div>`                                    
 }
