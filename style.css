@@ -139,6 +139,7 @@ button:hover {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
     justify-content: space-evenly;
+    text-align: center;
     padding: 15px;
     background-color: grey;
     color: black;
@@ -156,8 +157,11 @@ button:hover {
 }
 
 .uMovies {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    max-width: 250px;
 }
 
 .tsm {
@@ -170,5 +174,35 @@ button:hover {
     background-size: cover;
     margin-left: 15px;
     margin-right: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: space-evenly;
+    padding: 15px;
+    background-color: grey;
+    color: black;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.searchMovies {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    justify-content: space-evenly;
+    text-align: center;
+    padding: 15px;
+    background-color: grey;
+    color: black;
+    margin-bottom: 15px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
