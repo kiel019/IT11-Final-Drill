@@ -40,7 +40,9 @@ upcomingMovies()
 
 const searchMovies = async() => {
     const query = document.getElementById('search').value;
-
+    nextButton.style.display = 'none';
+    prevButton.style.display = 'none';
+    
     if (query.trim() === '') {
         alert('Please enter a movie title.');
         return;
