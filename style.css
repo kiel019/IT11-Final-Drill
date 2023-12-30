@@ -25,10 +25,11 @@ body {
 h1 {
     color: #333;
     background-color: #b3b3b3;
-    padding: 10px;
-    margin-left: 5px;
+    padding: 15px;
+    /* margin-left: 5px;
+    margin-right: 5px;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
     text-align: left;
 }
 
@@ -59,14 +60,12 @@ button {
     padding: 10px;
     cursor: pointer;
     border: none;
+    width: 6em;
+    border-radius: 5px;
 }
 
 button:hover {
     background-color: #45a049;
-}
-
-#back {
-    display: grid;
 }
 
 .searchM {
@@ -154,6 +153,7 @@ button:hover {
     margin-top: 15px;
     margin-left: 15px;
     margin-right: 15px;
+    font-size: 1.5em;
 }
 
 .uMovies {
@@ -167,6 +167,7 @@ button:hover {
 .tsm {
     margin-left: 15px;
     margin-right: 15px;
+    font-size: 1.5em;
 }
 
 .banner {

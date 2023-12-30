@@ -63,8 +63,6 @@ const searchMovies = async() => {
 
 function showMovieDetails(movieId) {
     const detailsUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`;
-
-    // Make the API request to get detailed information
     axios.get(detailsUrl)
         .then(response => displayMovieDetails(response.data))
         .catch(error => console.error('Error fetching movie details:', error));
@@ -80,10 +78,10 @@ const displayMovieDetails = async(movie) => {
     const posterPath = movie.poster_path;
     const posterUrl = posterPath
             ? `https://image.tmdb.org/t/p/w500${posterPath}`
-            : 'placeholder_image_url.jpg';  // Provide a placeholder image URL if no poster is available
+            : 'placeholder_image_url.jpg';
     const backdropUrl = movie.backdrop_path
             ? `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`
-            : 'placeholder_image_url.jpg'; // Provide a placeholder image URL if no backdrop is available
+            : 'placeholder_image_url.jpg';
     resultsContainer.innerHTML = `<a href='${backdropUrl}'><div class="banner" style="background-image: url('${backdropUrl}')"></div></a>
                                     <div class=movieDetails>
                                     <img class=posterDetails src="${posterUrl}" alt="${movie.title} Poster">
@@ -105,3 +103,17 @@ const displayMovieDetails = async(movie) => {
                                     </div>`                                    
 }
 
+const getRandomMovie = async () => {
+    const baseUrll = 'https://api.themoviedb.org/3';
+    
+    const response = await fetch(`${baseUrll}/movie/popular?api_key=${apiKey}`);
+    const data = await response.json();
+
+    if (data.results.length > 0) {
+        const randomMovie = data.results[Math.floor(Math.random() * data.results.length)];
+
+        showMovieDetails(randomMovie.id);
+    } else {
+        console.error('No results found for popular movies.');
+    }
+};
